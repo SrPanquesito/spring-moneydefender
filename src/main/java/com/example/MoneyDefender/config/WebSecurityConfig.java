@@ -2,6 +2,8 @@ package com.example.MoneyDefender.config;
 
 import java.util.Arrays;
 
+import com.example.MoneyDefender.security.JwtAuthenticationFilter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -26,6 +29,7 @@ import lombok.AllArgsConstructor;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     // Se necesita declarar el AuthManager dentro de un Bean ya que tiene distintas funcionalidades como interfaz.
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
@@ -45,6 +49,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // Para todas las demas rutas pide verificación.
             .anyRequest()
             .authenticated();
+        http.addFilterBefore(jwtAuthenticationFilter,
+            UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean

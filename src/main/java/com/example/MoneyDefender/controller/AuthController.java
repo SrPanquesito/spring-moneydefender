@@ -1,5 +1,6 @@
 package com.example.MoneyDefender.controller;
 
+import com.example.MoneyDefender.dto.AuthenticationResponse;
 import com.example.MoneyDefender.dto.LoginRequest;
 import com.example.MoneyDefender.dto.RegisterRequest;
 import com.example.MoneyDefender.service.AuthService;
@@ -30,8 +31,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public void login(@RequestBody LoginRequest loginRequest) {
-        authService.login(loginRequest);
+    public AuthenticationResponse login(@RequestBody LoginRequest loginRequest) {
+        return authService.login(loginRequest);
     }
 
 }

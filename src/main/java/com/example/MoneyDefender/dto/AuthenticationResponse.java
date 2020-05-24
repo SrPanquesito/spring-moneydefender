@@ -1,14 +1,15 @@
 package com.example.MoneyDefender.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginRequest {
-
+@Builder
+public class AuthenticationResponse {
+    private String authenticationToken;
     private String username;
-    private String password;
 }

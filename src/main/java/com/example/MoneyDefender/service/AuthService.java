@@ -1,5 +1,6 @@
 package com.example.MoneyDefender.service;
 
+import com.example.MoneyDefender.dto.AuthenticationResponse;
 import com.example.MoneyDefender.dto.LoginRequest;
 import com.example.MoneyDefender.dto.RegisterRequest;
 import com.example.MoneyDefender.exceptions.SpringException;
@@ -8,9 +9,12 @@ import com.example.MoneyDefender.model.User;
 import com.example.MoneyDefender.model.VerificationToken;
 import com.example.MoneyDefender.repository.UserRepository;
 import com.example.MoneyDefender.repository.VerificationTokenRepository;
+import com.example.MoneyDefender.security.JwtProvider;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +34,7 @@ public class AuthService {
     private final VerificationTokenRepository verificationTokenRepository;
     private final MailService mailService;
     private final AuthenticationManager authenticationManager;
+    private final JwtProvider jwtProvider;
 
     @Transactional
     public void signup(RegisterRequest registerRequest) {
@@ -49,7 +54,7 @@ public class AuthService {
                 "http://localhost:9000/api/auth/accountVerification/" + token));
     }
 
-    // Token de verificacion que sera enviado con el email.
+    // Token de verificacion que sera enviado con el email para activar al usuario.
     private String generateVerificationToken(User user) {
         String token = UUID.randomUUID().toString();
         VerificationToken verificationToken = new VerificationToken();
@@ -60,11 +65,13 @@ public class AuthService {
         return token;
     }
 
+    // Busca el email token en la BDD para activar al usuario.
     public void verifyAccount(String token) {
         Optional<VerificationToken> verificationToken = verificationTokenRepository.findByToken(token);
         fetchUserAndEnable(verificationToken.orElseThrow(() -> new SpringException("Invalid Token")));
     }
 
+    // Activa al usuario.
     private void fetchUserAndEnable(VerificationToken verificationToken) {
         String username = verificationToken.getUser().getUsername();
         User user = userRepository.findByUsername(username).orElseThrow(() -> new SpringException("User not found with name - " + username));
@@ -72,7 +79,11 @@ public class AuthService {
         userRepository.save(user);
     }
 
-    public void login(LoginRequest loginRequest) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+    // Una vez loged genera un JWT para que el cliente pueda hacer requests.
+    public AuthenticationResponse login(LoginRequest loginRequest) {
+        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authenticate);
+        String token = jwtProvider.generateToken(authenticate);
+        return new AuthenticationResponse(token, loginRequest.getUsername());
     }
 }
