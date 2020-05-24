@@ -1,6 +1,8 @@
 package com.example.MoneyDefender.service;
 
 import com.example.MoneyDefender.dto.RegisterRequest;
+import com.example.MoneyDefender.exceptions.SpringException;
+import com.example.MoneyDefender.model.NotificationEmail;
 import com.example.MoneyDefender.model.User;
 import com.example.MoneyDefender.model.VerificationToken;
 import com.example.MoneyDefender.repository.UserRepository;
@@ -14,6 +16,7 @@ import lombok.AllArgsConstructor;
 
 import java.time.Instant;
 import java.util.UUID;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -22,6 +25,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final VerificationTokenRepository verificationTokenRepository;
+    private final MailService mailService;
 
     @Transactional
     public void signup(RegisterRequest registerRequest) {
@@ -35,6 +39,10 @@ public class AuthService {
         userRepository.save(user);
 
         String token = generateVerificationToken(user);
+        mailService.sendMail(new NotificationEmail("Please Activate your Account",
+                user.getEmail(), "Thank you for signing up to Spring Reddit, " +
+                "please click on the below url to activate your account : " +
+                "http://localhost:9000/api/auth/accountVerification/" + token));
     }
 
     // Token de verificacion que sera enviado con el email.
@@ -46,5 +54,17 @@ public class AuthService {
 
         verificationTokenRepository.save(verificationToken);
         return token;
+    }
+
+    public void verifyAccount(String token) {
+        Optional<VerificationToken> verificationToken = verificationTokenRepository.findByToken(token);
+        fetchUserAndEnable(verificationToken.orElseThrow(() -> new SpringException("Invalid Token")));
+    }
+
+    private void fetchUserAndEnable(VerificationToken verificationToken) {
+        String username = verificationToken.getUser().getUsername();
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new SpringException("User not found with name - " + username));
+        user.setEnabled(true);
+        userRepository.save(user);
     }
 }

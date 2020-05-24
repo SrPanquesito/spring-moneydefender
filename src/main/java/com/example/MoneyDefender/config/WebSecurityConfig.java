@@ -18,22 +18,15 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
    @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // Deshabilita sessiones y autentificacion basica.
-        http.csrf().and().httpBasic().disable()
-        // Permite requests a las rutas de autorización para registrate como usuario y para obtener tus credenciales.
+        // Deshabilita CSRF, implementa CORS. Permite requests a las rutas de autorización para registrate como usuario y para obtener tus credenciales.
+        http.cors().and()
+            .csrf().disable()
             .authorizeRequests()
-            .antMatchers("/api/auth/**").permitAll()
+            .antMatchers("/api/auth/**")
+            .permitAll()
         // Para todas las demas rutas pide verificación.
-            .anyRequest().authenticated();
-
-        
-        // http
-        //     .cors()
-        //     .and().authorizeRequests()
-        //     // .antMatchers("/index.html", "/", "/home", "/login").permitAll()
-        //     .anyRequest().authenticated()
-        //     .and().sessionManagement()
-        //     .sessionCreationPolicy(SessionCreationPolicy.NEVER);
+            .anyRequest()
+            .authenticated();
     }
 
     @Bean
