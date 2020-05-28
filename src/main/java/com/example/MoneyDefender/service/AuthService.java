@@ -55,6 +55,15 @@ public class AuthService {
                 "please click on the below url to activate your account : " +
                 "http://localhost:9000/api/auth/accountVerification/" + token));
     }
+    
+    // Devuelve usuario desde Spring Security
+    @Transactional(readOnly = true)
+    public User getCurrentUser() {
+        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.
+                getContext().getAuthentication().getPrincipal();
+        return userRepository.findByUsername(principal.getUsername())
+                .orElseThrow(() -> new SpringException("User name not found - " + principal.getUsername()));
+    }
 
     // Token de verificacion que sera enviado con el email para activar al usuario.
     private String generateVerificationToken(User user) {
