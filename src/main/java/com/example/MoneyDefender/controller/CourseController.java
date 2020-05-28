@@ -1,5 +1,6 @@
 package com.example.MoneyDefender.controller;
 
+import com.example.MoneyDefender.dto.CourseResponse;
 import com.example.MoneyDefender.model.Course;
 import com.example.MoneyDefender.service.CourseService;
 import lombok.AllArgsConstructor;
@@ -28,7 +29,7 @@ public class CourseController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Course>> getAllPosts() {
+    public ResponseEntity<List<CourseResponse>> getAllPosts() {
         return status(HttpStatus.OK).body(courseService.getAll());
     }
 

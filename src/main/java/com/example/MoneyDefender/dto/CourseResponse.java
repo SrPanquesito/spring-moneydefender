@@ -15,6 +15,6 @@ public class CourseResponse {
     private Long courseId;
     private String courseName;
     private String description;
-    private Integer userId;
-    private Instant createdAt;
+    private Instant createdDate;
+    private Long userId;
 }

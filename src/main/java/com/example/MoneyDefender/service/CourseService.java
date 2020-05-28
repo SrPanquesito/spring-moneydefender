@@ -1,5 +1,6 @@
 package com.example.MoneyDefender.service;
 
+import com.example.MoneyDefender.dto.CourseResponse;
 import com.example.MoneyDefender.model.Course;
 import com.example.MoneyDefender.repository.CourseRepository;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import java.time.Instant;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 @AllArgsConstructor
@@ -28,8 +31,11 @@ public class CourseService {
     }
 
     @Transactional(readOnly = true)
-    public List<Course> getAll() {
-        return courseRepository.findAll();
+    public List<CourseResponse> getAll() {
+        return courseRepository.findAll()
+            .stream()
+            .map(this::mapToDto)
+            .collect(toList());
     }
 
     private Course mapTransToDto(Course courseRequest) {
@@ -40,7 +46,13 @@ public class CourseService {
             .user(authService.getCurrentUser())
             .build();
     }
-    // private CourseResponse mapToDto(Course transaction) {
-    //     return CourseResponse.builder().courseName(transaction.getCourseName()).id(transaction.getCourseId()).build();
-    // }
+    private CourseResponse mapToDto(Course transaction) {
+        return CourseResponse.builder()
+            .courseId(transaction.getCourseId())
+            .courseName(transaction.getCourseName())
+            .description(transaction.getDescription())
+            .createdDate(transaction.getCreatedDate())
+            .userId(transaction.getUser().getUserId())
+            .build();
+    }
 }
