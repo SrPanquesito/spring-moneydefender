@@ -26,4 +26,12 @@ public class Questionary {
     private Long questionaryId;
     @NotBlank(message = "Question cannot be empty or Null")
     private String question;
+    @NotBlank(message = "Answers cannot be empty or Null")
+    @Column(length = 600)
+    private String answers;
+    @NotBlank(message = "Question cannot be empty or Null")
+    private Integer correctAnswer;
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "lessonId", referencedColumnName = "lessonId")
+    private Lesson lesson;
 }

@@ -24,11 +24,12 @@ public class Lesson {
     private Long lessonId;
     @NotBlank(message = "Lesson Name cannot be empty or Null")
     private String lessonName;
+    @NotBlank(message = "Lesson Slug cannot be empty or Null")
+    private String lessonSlug;
     private Instant createdDate;
     @Nullable
     @Lob
     private String content;
-    private boolean hasQuest = false;
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "courseId", referencedColumnName = "courseId")
     private Course course;
