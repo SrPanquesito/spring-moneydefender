@@ -1,6 +1,7 @@
 package com.example.MoneyDefender.controller;
 
 import com.example.MoneyDefender.dto.LessonDto;
+import com.example.MoneyDefender.model.Lesson;
 import com.example.MoneyDefender.service.LessonService;
 import lombok.AllArgsConstructor;
 
@@ -30,10 +31,10 @@ public class LessonController {
         return status(HttpStatus.OK).body(lessonService.getAll());
     }
 
-    // @GetMapping("/{id}")
-    // public ResponseEntity<PostResponse> getPost(@PathVariable Long id) {
-    //     return status(HttpStatus.OK).body(courseService.getPost(id));
-    // }
+    @PutMapping("/{id}/questionary/{qId}")
+    public ResponseEntity<?> updateLesson(@PathVariable Long id, @PathVariable Long qId) {
+        return status(HttpStatus.OK).body(lessonService.update(id, qId));
+    }
 
     // @GetMapping("by-subreddit/{id}")
     // public ResponseEntity<List<PostResponse>> getPostsBySubreddit(Long id) {

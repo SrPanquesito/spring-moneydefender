@@ -19,4 +19,5 @@ public class LessonDto {
     private Instant createdDate;
     private Long courseId;
     private Long questionaryId;
+    private String messageLog;
 }
