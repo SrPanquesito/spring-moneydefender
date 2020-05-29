@@ -47,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             .antMatchers("/api/auth/**")
             .permitAll()
-            .antMatchers(HttpMethod.GET, "/api/subreddit")
+            .antMatchers(HttpMethod.GET, "/api/**")
             .permitAll()
         // Para todas las demas rutas pide verificación.
             .anyRequest()

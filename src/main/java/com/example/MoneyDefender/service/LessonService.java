@@ -45,6 +45,14 @@ public class LessonService {
             .collect(toList());
     }
 
+    @Transactional(readOnly = true)
+    public List<LessonDto> getAllByCourseId(Long courseId) {
+        return repository.findByCourse_CourseId(courseId)
+            .stream()
+            .map(this::mapToDto)
+            .collect(toList());
+    }
+
     @Transactional
     public LessonDto update(Long id, Long qId) {
         Lesson lesson = repository.findById(id)

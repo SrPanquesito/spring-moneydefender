@@ -1,6 +1,7 @@
 package com.example.MoneyDefender.service;
 
 import com.example.MoneyDefender.dto.CourseResponse;
+import com.example.MoneyDefender.exceptions.SpringException;
 import com.example.MoneyDefender.model.Course;
 import com.example.MoneyDefender.repository.CourseRepository;
 import lombok.AllArgsConstructor;
@@ -36,6 +37,13 @@ public class CourseService {
             .stream()
             .map(this::mapToDto)
             .collect(toList());
+    }
+
+    @Transactional(readOnly = true)
+    public CourseResponse getCourse(Long id) {
+        Course course = courseRepository.findById(id)
+                .orElseThrow(() -> new SpringException(id.toString()));
+        return mapToDto(course);
     }
 
     private Course mapTransToDto(Course courseRequest) {

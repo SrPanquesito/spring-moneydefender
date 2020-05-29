@@ -33,10 +33,10 @@ public class CourseController {
         return status(HttpStatus.OK).body(courseService.getAll());
     }
 
-    // @GetMapping("/{id}")
-    // public ResponseEntity<PostResponse> getPost(@PathVariable Long id) {
-    //     return status(HttpStatus.OK).body(courseService.getPost(id));
-    // }
+    @GetMapping("/{id}")
+    public ResponseEntity<CourseResponse> getPost(@PathVariable Long id) {
+        return status(HttpStatus.OK).body(courseService.getCourse(id));
+    }
 
     // @GetMapping("by-subreddit/{id}")
     // public ResponseEntity<List<PostResponse>> getPostsBySubreddit(Long id) {

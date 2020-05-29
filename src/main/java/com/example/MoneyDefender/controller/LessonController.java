@@ -27,8 +27,13 @@ public class LessonController {
     }
 
     @GetMapping
-    public ResponseEntity<List<LessonDto>> getAllPosts() {
+    public ResponseEntity<List<LessonDto>> getAllLessons() {
         return status(HttpStatus.OK).body(lessonService.getAll());
+    }
+
+    @GetMapping("/by-course/{id}")
+    public ResponseEntity<List<LessonDto>> getAllLessonsByCourseId(@PathVariable Long id) {
+        return status(HttpStatus.OK).body(lessonService.getAllByCourseId(id));
     }
 
     @PutMapping("/{id}/questionary/{qId}")
