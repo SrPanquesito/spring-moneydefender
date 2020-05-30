@@ -16,6 +16,7 @@ public class LessonDto {
     private String lessonName;
     private String lessonSlug;
     private String content;
+    private String imageUrl;
     private Instant createdDate;
     private Long courseId;
     private Long questionaryId;

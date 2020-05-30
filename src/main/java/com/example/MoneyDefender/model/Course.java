@@ -23,6 +23,7 @@ public class Course {
     private Long courseId;
     @NotBlank(message = "Course name is required")
     private String courseName;
+    @Column(length = 2000)
     @NotBlank(message = "Description is required")
     private String description;
     private Instant createdDate;

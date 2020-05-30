@@ -79,6 +79,7 @@ public class LessonService {
             .lessonSlug(request.getLessonSlug())
             .createdDate(Instant.now())
             .content(request.getContent())
+            .imageUrl(request.getImageUrl())
             .course(courseRepository.findByCourseId(request.getCourseId()))
             .build();
     }
@@ -89,6 +90,7 @@ public class LessonService {
             .lessonSlug(transaction.getLessonSlug())
             .createdDate(transaction.getCreatedDate())
             .content(transaction.getContent())
+            .imageUrl(transaction.getImageUrl())
             .courseId(transaction.getCourse().getCourseId())
             .questionaryId(transaction.getQuestionary().getQuestionaryId())
             .build();
@@ -99,6 +101,7 @@ public class LessonService {
             .lessonName(transaction.getLessonName())
             .createdDate(transaction.getCreatedDate())
             .content(transaction.getContent())
+            .imageUrl(transaction.getImageUrl())
             .courseId(transaction.getCourse().getCourseId())
             .questionaryId(transaction.getQuestionary().getQuestionaryId())
             .messageLog("questionaryId updated successfully!")

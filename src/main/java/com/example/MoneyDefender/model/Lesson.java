@@ -27,9 +27,12 @@ public class Lesson {
     @NotBlank(message = "Lesson Slug cannot be empty or Null")
     private String lessonSlug;
     private Instant createdDate;
-    @Nullable
+    @NotBlank(message = "Content cannot be empty or Null")
     @Lob
     private String content;
+    @Nullable
+    @Lob
+    private String imageUrl;
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "courseId", referencedColumnName = "courseId")
     private Course course;
