@@ -53,7 +53,7 @@ public class AuthService {
         mailService.sendMail(new NotificationEmail("Activación de cuenta en Money Defender",
                 user.getEmail(), "Gracias por registrarte en Money Defender, " +
                 "por favor haz clic en el enlace a continuación para activar tu cuenta : " +
-                "http://localhost:9000/api/auth/accountVerification/" + token));
+                "https://moneydefender.herokuapp.com/api/auth/accountVerification/" + token));
     }
     
     // Devuelve usuario desde Spring Security

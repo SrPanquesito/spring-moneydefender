@@ -32,7 +32,7 @@ public class AuthController {
     @GetMapping("accountVerification/{token}")
     public ResponseEntity<String> verifyAccount(@PathVariable String token) {
         authService.verifyAccount(token);
-        return new ResponseEntity<>("Cuenta Activada Exitosamente. Continua a MoneyDefender: http://localhost:4200", OK);
+        return new ResponseEntity<>("Cuenta Activada Exitosamente. Por favor procede a MoneyDefender en https://money-defender.herokuapp.com/", OK);
     }
 
     @PostMapping("/login")
