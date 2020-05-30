@@ -1,6 +1,7 @@
 package com.example.MoneyDefender.service;
 
 import com.example.MoneyDefender.dto.QuestionaryDto;
+import com.example.MoneyDefender.exceptions.SpringException;
 import com.example.MoneyDefender.model.Questionary;
 import com.example.MoneyDefender.repository.LessonRepository;
 import com.example.MoneyDefender.repository.QuestionaryRepository;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+import java.util.Optional;
 import java.time.Instant;
 
 import static java.util.stream.Collectors.toList;
@@ -37,6 +38,12 @@ public class QuestionaryService {
             .stream()
             .map(this::mapToDto)
             .collect(toList());
+    }
+
+    @Transactional(readOnly = true)
+    public QuestionaryDto getByLessonId(Long id) {
+        Questionary quest = repository.findByLesson_LessonId(id);
+        return mapToDto(quest);
     }
 
     private Questionary mapTransToDto(QuestionaryDto request) {

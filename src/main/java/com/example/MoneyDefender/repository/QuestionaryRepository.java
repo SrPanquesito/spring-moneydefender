@@ -9,5 +9,5 @@ import java.util.Optional;
 @Repository
 public interface QuestionaryRepository extends JpaRepository<Questionary, Long> {
     Questionary findByQuestionaryId(Long questionaryId);
-    Optional<Questionary> findByLesson(Long lessonId);
+    Questionary findByLesson_LessonId(Long lessonId);
 }

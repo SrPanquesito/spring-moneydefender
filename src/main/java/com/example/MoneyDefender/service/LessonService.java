@@ -53,6 +53,14 @@ public class LessonService {
             .collect(toList());
     }
 
+    @Transactional(readOnly = true)
+    public LessonDto getLessonById(Long id) {
+        Lesson lesson = repository.findById(id)
+                .orElseThrow(() -> new SpringException(id.toString()));
+        
+        return mapToDto(lesson);
+    }
+
     @Transactional
     public LessonDto update(Long id, Long qId) {
         Lesson lesson = repository.findById(id)
@@ -78,9 +86,11 @@ public class LessonService {
         return LessonDto.builder()
             .lessonId(transaction.getLessonId())
             .lessonName(transaction.getLessonName())
+            .lessonSlug(transaction.getLessonSlug())
             .createdDate(transaction.getCreatedDate())
             .content(transaction.getContent())
             .courseId(transaction.getCourse().getCourseId())
+            .questionaryId(transaction.getQuestionary().getQuestionaryId())
             .build();
     }
     private LessonDto mapToDtoUpdate(Lesson transaction) {

@@ -29,4 +29,9 @@ public class QuestionaryController {
     public ResponseEntity<List<QuestionaryDto>> getAll() {
         return status(HttpStatus.OK).body(service.getAll());
     }
+
+    @GetMapping("/by-lesson/{id}")
+    public ResponseEntity<QuestionaryDto> getQuestionaryByLessonId(@PathVariable Long id) {
+        return status(HttpStatus.OK).body(service.getByLessonId(id));
+    }
 }

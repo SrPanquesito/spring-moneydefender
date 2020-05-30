@@ -50,9 +50,9 @@ public class AuthService {
         userRepository.save(user);
 
         String token = generateVerificationToken(user);
-        mailService.sendMail(new NotificationEmail("Please Activate your Account",
-                user.getEmail(), "Thank you for signing up to Spring Reddit, " +
-                "please click on the below url to activate your account : " +
+        mailService.sendMail(new NotificationEmail("Activación de cuenta en Money Defender",
+                user.getEmail(), "Gracias por registrarte en Money Defender, " +
+                "por favor haz clic en el enlace a continuación para activar tu cuenta : " +
                 "http://localhost:9000/api/auth/accountVerification/" + token));
     }
     

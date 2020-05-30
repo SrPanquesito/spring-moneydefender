@@ -31,6 +31,11 @@ public class LessonController {
         return status(HttpStatus.OK).body(lessonService.getAll());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<LessonDto> getLesson(@PathVariable Long id) {
+        return status(HttpStatus.OK).body(lessonService.getLessonById(id));
+    }
+
     @GetMapping("/by-course/{id}")
     public ResponseEntity<List<LessonDto>> getAllLessonsByCourseId(@PathVariable Long id) {
         return status(HttpStatus.OK).body(lessonService.getAllByCourseId(id));
