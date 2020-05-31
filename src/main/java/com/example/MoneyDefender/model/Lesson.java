@@ -36,6 +36,7 @@ public class Lesson {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "courseId", referencedColumnName = "courseId")
     private Course course;
+    @Nullable
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "questionaryId", referencedColumnName = "questionaryId")
     private Questionary questionary;
