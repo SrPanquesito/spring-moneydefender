@@ -56,6 +56,7 @@ public class QuestionaryService {
     }
     private QuestionaryDto mapToDto(Questionary transaction) {
         return QuestionaryDto.builder()
+            .questionaryId(transaction.getQuestionaryId())
             .question(transaction.getQuestion())
             .answers(transaction.getAnswers())
             .correctAnswer(transaction.getCorrectAnswer())
