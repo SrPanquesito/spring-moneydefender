@@ -4,9 +4,10 @@ import com.example.MoneyDefender.model.CorrectAnswers;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface CorrectAnswersRepository extends JpaRepository<CorrectAnswers, Long> {
-    CorrectAnswers findByUserUserId(Long userId);
+    List<CorrectAnswers> findByUserUserId(Long userId);
 }
