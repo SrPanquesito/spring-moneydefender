@@ -100,6 +100,10 @@ public class LessonService {
             .build();
     }
     private LessonDto mapToDtoUpdate(Lesson transaction) {
+        Long questionaryId = 0L;
+        if (transaction.getQuestionary() != null) {
+            questionaryId = transaction.getQuestionary().getQuestionaryId();
+        }
         return LessonDto.builder()
             .lessonId(transaction.getLessonId())
             .lessonName(transaction.getLessonName())
@@ -107,7 +111,7 @@ public class LessonService {
             .content(transaction.getContent())
             .imageUrl(transaction.getImageUrl())
             .courseId(transaction.getCourse().getCourseId())
-            .questionaryId(transaction.getQuestionary().getQuestionaryId())
+            .questionaryId(questionaryId)
             .messageLog("questionaryId updated successfully!")
             .build();
     }
