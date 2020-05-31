@@ -4,8 +4,10 @@ import com.example.MoneyDefender.dto.CorrectAnswersDto;
 import com.example.MoneyDefender.exceptions.SpringException;
 import com.example.MoneyDefender.model.CorrectAnswers;
 import com.example.MoneyDefender.model.Questionary;
+import com.example.MoneyDefender.model.User;
 import com.example.MoneyDefender.repository.CorrectAnswersRepository;
 import com.example.MoneyDefender.repository.QuestionaryRepository;
+import com.example.MoneyDefender.repository.UserRepository;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ public class CorrectAnswersService {
 
     private final CorrectAnswersRepository repository;
     private final QuestionaryRepository questionaryRepository;
+    private final UserRepository userRepository;
     private final AuthService authService;
 
     // Entonces quieres salvar los datos que te envian (json) usando el repositorio pero tambien necesitas
@@ -50,6 +53,18 @@ public class CorrectAnswersService {
             .map(this::mapToDto)
             .collect(toList());
     }
+
+    @Transactional(readOnly = true)
+    public List<CorrectAnswersDto> getAllByUsername(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new SpringException(username));
+
+        return repository.findByUserUserId(user.getUserId())
+            .stream()
+            .map(this::mapToDto)
+            .collect(toList());
+    }
+
 
     private CorrectAnswers mapDtoToTrans(CorrectAnswersDto request, Questionary questionary) {
         return CorrectAnswers.builder()

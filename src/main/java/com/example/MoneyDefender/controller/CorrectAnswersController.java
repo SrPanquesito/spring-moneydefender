@@ -35,4 +35,9 @@ public class CorrectAnswersController {
     public ResponseEntity<List<CorrectAnswersDto>> getAllByUser(@PathVariable Long id) {
         return status(HttpStatus.OK).body(service.getAllByUserId(id));
     }
+
+    @GetMapping("/by-username/{username}")
+    public ResponseEntity<List<CorrectAnswersDto>> getAllByUsername(@PathVariable String username) {
+        return status(HttpStatus.OK).body(service.getAllByUsername(username));
+    }
 }
